@@ -66,6 +66,11 @@ begin
       calc i < n : i_lt_n
       ... < m : n_lt_m,
     },
+    have i_lt_mp1 : i < m+1,
+    {
+      calc i < m : i_lt_m
+      ... < m+1 : nat.lt_succ_self m,
+    },
     have h: (shift(n) ∘ shift(m)) f i = f i,
     {
       begin
@@ -79,7 +84,12 @@ begin
     },
     have h': (shift(m+1) ∘ shift(n)) f i = f i,
     {
-      sorry
+      calc (shift(m+1) ∘ shift(n)) f i = shift(m+1) (shift(n) f) i : by rw function.comp_app
+      ... = f i : by {
+        unfold shift,
+        split_ifs,
+        repeat {refl},
+      },
     },
     rw h,
     rw h',
