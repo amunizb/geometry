@@ -24,11 +24,15 @@ example (ι : Type*) (X : ι → Type*) (T_X : Π i, topological_space $ X i) :
   (Pi.topological_space : topological_space (Π i, X i)) = ⨅ i, topological_space.induced (λ x, x i) (T_X i) :=
 rfl
 
--- define ℝ^n as a topological space
+-- Define ℝⁿ as a subtype of ℕ → ℝ
+--  in order to inherit subtype topology
 def R (n : ℕ) : Type := { f : ℕ → ℝ // ∀ i : ℕ, i > n → f i = 0 }
 
 instance : topological_space (R n) := subtype.topological_space
 
+-- Define simplices as a subtype of ℕ → ℝ
+--   inherit subtype topology
+--   and coerce it as a subtype of ℝⁿ
 def simplex (n : ℕ) : Type := 
 {f : ℕ → ℝ // ∑ j in finset.range (n+1), f j = 1 ∧ ∀ i : ℕ, (i > n → f i = 0) ∧ f i ≥ 0}
 
@@ -41,29 +45,28 @@ begin
   exact (x.property.right i).left hi,
 end⟩⟩
 
-def shift (n : ℕ) (f : ℕ → ℝ) : ℕ → ℝ := 
-λ i, if i < n then f i else if n = i then 0 else f (i-1)
+-- Shift functions on sequences and associated theorems
+--
 
 variable f : ℕ → ℝ
 variable m : ℕ
 
-#check shift m
-#check (shift n  ∘ shift m) f
-#check shift m  ∘ shift n
-#check n < m
-#check shift(n) ∘ shift(m) = shift(m+1) ∘ shift(n)
-#check n < m → shift(n) ∘ shift(m) = shift(m+1) ∘ shift(n)
+-- Shifting a sequence at position n, corresponds to
+-- inserting a 0 into the sequence so that it's in the
+-- nᵗʰ position
+def shift (n : ℕ) (f : ℕ → ℝ) : ℕ → ℝ := 
+λ i, if i < n then f i else if n = i then 0 else f (i-1)
 
-theorem composition_relation_for_shifts {m n : ℕ} : n < m → shift(n) ∘ shift(m) = shift(m+1) ∘ shift(n) :=
+lemma composition_relation_for_shifts {m n : ℕ} : n < m → shift(n) ∘ shift(m) = shift(m+1) ∘ shift(n) :=
 begin
   intros n_lt_m,
   ext f i,
-  
+
   -- Case i < n
   by_cases i_lt_n : i < n,
   {
     -- some helper propositions to prod `split_ifs` 
-    -- to make the approprtiate simplifications:
+    -- to make the appropriate simplifications:
     have i_lt_m : i < m, by linarith,
     have i_lt_mp1 : i < m+1, by linarith,
 
@@ -76,7 +79,7 @@ begin
   by_cases i_eq_n : i = n,
   {
     -- some helper propositions to prod `split_ifs` 
-    -- to make the approprtiate simplifications:
+    -- to make the appropriate simplifications:
     have i_lt_m : i < m, by linarith,
     have i_lt_mp1 : i < m+1, by linarith,
     have n_eq_i: n = i := by { rw i_eq_n, },
@@ -101,11 +104,8 @@ begin
   {
     sorry
   },
-  -- the upper cases are exhaustive, this is a contradiction now:
+  -- The above cases are exhaustive, leaving a contradiction at this point:
   sorry,
 end
 
 --variables (f : (simplex n) → ℝ) (h : continuous f)
-
-#check Pi.topological_space
-#check subtype.topological_space
