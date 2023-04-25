@@ -101,7 +101,7 @@ begin
   sorry,
 end
 
-variables (f : (simplex n) → ℝ) (h : continuous f)
+--variables (f : (simplex n) → ℝ) (h : continuous f)
 
 #check Pi.topological_space
 #check subtype.topological_space
