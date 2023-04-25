@@ -10,19 +10,25 @@ import algebra.order.group.bounds
 import algebra.periodic
 import topology.instances.int
 
+import tactic
+
 noncomputable theory
 open classical filter int metric set topological_space
 open_locale classical topology filter uniformity interval
+open_locale big_operators
+open finset
 
 --universes u v w
 --variables {α : Type u} {β : Type v} {γ : Type w}
 --instance : noncompact_space ℝ := int.closed_embedding_coe_real.noncompact_space
 
+variable n : ℕ 
+
 -- define ℝ^n as a topological space
-def R_n : Type := {f : ℕ → ℝ | ∃ n : ℕ, ∀ i : ℕ, i > n → f i = 0}
+def R_n : Type := {f : ℕ → ℝ | ∀ i : ℕ, i > n → f i = 0}
 
-def simplex_n : Type := {f : ℕ → ℝ | ∃ n : ℕ, ∀ i : ℕ, i > n → f i = 0 ∧ f i ≥ 0 ∧ ∑ j in finset.range (i+1), f j = 1}
-
+-- define the nth simplex as a topological space
+def simplex_n : Type := {f : ℕ → ℝ | ∑ j in finset.range (n+1), f j = 1 ∧ ∀ i : ℕ, i > n → f i = 0 ∧ f i ≥ 0}
 
 
 
