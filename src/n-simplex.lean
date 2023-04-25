@@ -77,9 +77,12 @@ begin
         }
       end,
     },
+    have h': (shift(m+1) ∘ shift(n)) f i = f i,
     {
       sorry
     },
+    rw h,
+    rw h',
   },
   by_cases i_eq_n : i = n,
   {
