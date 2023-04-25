@@ -14,10 +14,12 @@ noncomputable theory
 open classical filter int metric set topological_space
 open_locale classical topology filter uniformity interval
 
-universes u v w
-variables {α : Type u} {β : Type v} {γ : Type w}
+--universes u v w
+--variables {α : Type u} {β : Type v} {γ : Type w}
+--instance : noncompact_space ℝ := int.closed_embedding_coe_real.noncompact_space
 
-instance : noncompact_space ℝ := int.closed_embedding_coe_real.noncompact_space
+-- define ℝ^n as a topological space
+def R_n : Type := {f : ℕ → ℝ | ∃ n : ℕ, ∀ i : ℕ, i > n → f i = 0}
 
 
 
