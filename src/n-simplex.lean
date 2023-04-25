@@ -18,11 +18,11 @@ open_locale classical topology filter uniformity interval
 open_locale big_operators
 open finset
 
---universes u v w
---variables {α : Type u} {β : Type v} {γ : Type w}
---instance : noncompact_space ℝ := int.closed_embedding_coe_real.noncompact_space
-
 variable n : ℕ 
+
+example (ι : Type*) (X : ι → Type*) (T_X : Π i, topological_space $ X i) :
+  (Pi.topological_space : topological_space (Π i, X i)) = ⨅ i, topological_space.induced (λ x, x i) (T_X i) :=
+rfl
 
 -- define ℝ^n as a topological space
 def R (n : ℕ) : Type := { f : ℕ → ℝ // ∀ i : ℕ, i > n → f i = 0 }
