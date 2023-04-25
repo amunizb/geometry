@@ -21,5 +21,9 @@ open_locale classical topology filter uniformity interval
 -- define ℝ^n as a topological space
 def R_n : Type := {f : ℕ → ℝ | ∃ n : ℕ, ∀ i : ℕ, i > n → f i = 0}
 
+def simplex_n : Type := {f : ℕ → ℝ | ∃ n : ℕ, ∀ i : ℕ, i > n → f i = 0 ∧ f i ≥ 0 ∧ ∑ j in finset.range (i+1), f j = 1}
+
+
+
 
 
