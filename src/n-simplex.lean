@@ -65,8 +65,8 @@ begin
   -- Case i < n
   by_cases i_lt_n : i < n,
   {
-    -- some helper propositions to prod `split_ifs` 
-    -- to make the appropriate simplifications:
+    -- some helper propositions to encourage `split_ifs` 
+    -- into making the appropriate simplifications:
     have i_lt_m : i < m, by linarith,
     have i_lt_mp1 : i < m+1, by linarith,
 
@@ -78,11 +78,11 @@ begin
   -- Case i = n
   by_cases i_eq_n : i = n,
   {
-    -- some helper propositions to prod `split_ifs` 
-    -- to make the appropriate simplifications:
+    -- some helper propositions to encourage `split_ifs` 
+    -- into making the appropriate simplifications:
     have i_lt_m : i < m, by linarith,
     have i_lt_mp1 : i < m+1, by linarith,
-    have n_eq_i: n = i := by { rw i_eq_n, },
+    have n_eq_i: n = i := by { rw i_eq_n, }, -- this one looks odd but is seemingly necessary
 
     repeat {rw function.comp_app},
     unfold shift,
