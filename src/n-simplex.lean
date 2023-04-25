@@ -81,6 +81,23 @@ begin
       sorry
     },
   },
+  by_cases i_eq_n : i = n,
+  {
+    sorry
+  },
+  by_cases i_btwn_n_m : n < i ∧ i < m,
+  {
+    sorry
+  },
+  by_cases i_eq_m : i = m,
+  {
+    sorry
+  },
+  by_cases i_gt_m : i > m,
+  {
+    sorry
+  },
+  -- the upper cases are exhaustive, this is a contradiction now:
   sorry,
 end
 
