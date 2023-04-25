@@ -44,7 +44,37 @@ end⟩⟩
 def shift (n : ℕ) (f : ℕ → ℝ) : ℕ → ℝ := 
 λ i, if i < n then f i else if n = i then 0 else f (i-1)
 
+variable f : ℕ → ℝ
+variable m : ℕ
 
+#check shift m
+#check (shift n  ∘ shift m) f
+#check shift m  ∘ shift n
+#check n < m
+#check shift(n) ∘ shift(m) = shift(m+1) ∘ shift(n)
+#check n < m → shift(n) ∘ shift(m) = shift(m+1) ∘ shift(n)
+
+theorem composition_relation_for_shifts {m n : ℕ} : n < m → shift(n) ∘ shift(m) = shift(m+1) ∘ shift(n) :=
+begin
+  intros n_lt_m,
+  ext f i,
+  -- consider the case i < n
+  by_cases i_lt_n : i < n,
+  {
+    have h: (shift(n) ∘ shift(m)) f i = f i,
+    {
+        sorry
+    },
+    {
+      sorry
+    },
+    -- begin
+    --   calc (shift(n) ∘ shift(m)) f i = shift(n) (shift(m) f) i : by rw function.comp_app
+    --   ... = shift(m) f i : by {}
+    --   ... = 
+    -- end,
+  },
+end
 
 variables (f : (simplex n) → ℝ) (h : continuous f)
 
