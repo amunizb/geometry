@@ -61,19 +61,27 @@ begin
   -- consider the case i < n
   by_cases i_lt_n : i < n,
   {
+    have i_lt_m : i < m,
+    {
+      calc i < n : i_lt_n
+      ... < m : n_lt_m,
+    },
     have h: (shift(n) ∘ shift(m)) f i = f i,
     {
-        sorry
+      begin
+        calc (shift(n) ∘ shift(m)) f i = shift(n) (shift(m) f) i : by rw function.comp_app
+        ... = f i : by {
+          unfold shift,
+          split_ifs,
+          repeat {refl},
+        }
+      end,
     },
     {
       sorry
     },
-    -- begin
-    --   calc (shift(n) ∘ shift(m)) f i = shift(n) (shift(m) f) i : by rw function.comp_app
-    --   ... = shift(m) f i : by {}
-    --   ... = 
-    -- end,
   },
+  sorry,
 end
 
 variables (f : (simplex n) → ℝ) (h : continuous f)
