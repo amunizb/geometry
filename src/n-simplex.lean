@@ -25,11 +25,9 @@ open finset
 variable n : ℕ 
 
 -- define ℝ^n as a topological space
-def R_n : Type := {f : ℕ → ℝ | ∀ i : ℕ, i > n → f i = 0}
+def R(n) : Type := {f : ℕ → ℝ | ∀ i : ℕ, i > n-1 → f i = 0}
 
 -- define the nth simplex as a topological space
-def simplex_n : Type := {f : ℕ → ℝ | ∑ j in finset.range (n+1), f j = 1 ∧ ∀ i : ℕ, i > n → f i = 0 ∧ f i ≥ 0}
-
-
+def simplex(n) : Type := {f : ℕ → ℝ | ∀ i : ℕ, i > n → f i = 0  ∧ f i ≥ 0 ∧ ∑ j in finset.range (n+1), f j = 1 }
 
 
