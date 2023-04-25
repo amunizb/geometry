@@ -81,7 +81,24 @@ begin
   -- Case i = n
   by_cases i_eq_n : i = n,
   {
-    sorry
+    -- some helper propositions to prod `split_ifs` 
+    -- to make the approprtiate simplifications:
+    have i_lt_m : i < m,
+    {
+      calc i = n : i_eq_n
+      ... < m : n_lt_m,
+    },
+    have i_lt_mp1 : i < m+1,
+    {
+      calc i = n : i_eq_n
+      ... < m : n_lt_m
+      ... < m+1 : nat.lt_succ_self m,
+    },
+    have n_eq_i: n = i := by { rw i_eq_n, },
+    repeat {rw function.comp_app},
+    unfold shift,
+    split_ifs,
+    repeat {refl},
   },
   -- Case n < i < m
   by_cases i_btwn_n_m : n < i ∧ i < m,
