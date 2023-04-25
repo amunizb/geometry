@@ -58,21 +58,15 @@ theorem composition_relation_for_shifts {m n : ℕ} : n < m → shift(n) ∘ shi
 begin
   intros n_lt_m,
   ext f i,
+  
   -- Case i < n
   by_cases i_lt_n : i < n,
   {
     -- some helper propositions to prod `split_ifs` 
     -- to make the approprtiate simplifications:
-    have i_lt_m : i < m,
-    {
-      calc i < n : i_lt_n
-      ... < m : n_lt_m,
-    },
-    have i_lt_mp1 : i < m+1,
-    {
-      calc i < m : i_lt_m
-      ... < m+1 : nat.lt_succ_self m,
-    },
+    have i_lt_m : i < m, by linarith,
+    have i_lt_mp1 : i < m+1, by linarith,
+
     repeat {rw function.comp_app},
     unfold shift,
     split_ifs,
@@ -83,18 +77,10 @@ begin
   {
     -- some helper propositions to prod `split_ifs` 
     -- to make the approprtiate simplifications:
-    have i_lt_m : i < m,
-    {
-      calc i = n : i_eq_n
-      ... < m : n_lt_m,
-    },
-    have i_lt_mp1 : i < m+1,
-    {
-      calc i = n : i_eq_n
-      ... < m : n_lt_m
-      ... < m+1 : nat.lt_succ_self m,
-    },
+    have i_lt_m : i < m, by linarith,
+    have i_lt_mp1 : i < m+1, by linarith,
     have n_eq_i: n = i := by { rw i_eq_n, },
+
     repeat {rw function.comp_app},
     unfold shift,
     split_ifs,
