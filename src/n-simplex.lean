@@ -149,3 +149,8 @@ begin
   },
   exact ⟨g, ⟨h1, h2⟩⟩,
 end
+
+lemma face_inclusion_continuous (n: ℕ) (k: ℕ) (h: k ≤ n): continuous (face_inclusion n k h) :=
+begin
+  sorry,
+end
