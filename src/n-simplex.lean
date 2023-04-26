@@ -63,9 +63,7 @@ begin
   ext f i,
   repeat {rw function.comp_app},
   unfold shift,
-  split_ifs,
-  repeat {linarith},
-
+  --repeat {linarith},
   -- Case i < n
   by_cases i_lt_n : i < n,
   {
