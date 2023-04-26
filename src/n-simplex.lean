@@ -107,8 +107,31 @@ begin
   {
     sorry
   },
+
   -- The above cases are exhaustive, leaving a contradiction at this point:
-  sorry,
+  --  `split_ifs, repeat {refl},` will actually work but feels dirty to prove
+  --  the current goal from a logical contradiction.
+
+  -- There might be a tactic for dealing with goals following from strict orders,
+  -- but until it's found, here's something that works:
+
+  exfalso, clear f, -- remove irrelevant goals and hypotheses
+  rw not_lt at i_lt_n i_gt_m,
+  rw ← ne.def at i_eq_n i_eq_m,
+  apply i_btwn_n_m, clear i_btwn_n_m, -- rephrase contradiction in terms of hypotheses
+  split,
+  {
+    clear i_eq_m i_gt_m n_lt_m m, -- m is irrelevant in this case
+    apply lt_of_le_of_ne',
+      exact i_lt_n,
+      exact i_eq_n,
+  },
+  {
+    clear i_eq_n i_lt_n n_lt_m n, -- n is irrelevant in this case
+    apply lt_of_le_of_ne',
+      exact i_gt_m,
+      exact i_eq_m.symm,
+  },
 end
 
 --variables (f : (simplex n) → ℝ) (h : continuous f)
