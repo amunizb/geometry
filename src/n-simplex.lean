@@ -63,7 +63,8 @@ begin
   ext f i,
   repeat {rw function.comp_app},
   unfold shift,
-  --split_ifs,
+  split_ifs,
+  repeat {linarith},
 
   -- Case i < n
   by_cases i_lt_n : i < n,
@@ -73,8 +74,6 @@ begin
     have i_lt_m : i < m, by linarith,
     have i_lt_mp1 : i < m+1, by linarith,
 
-    --repeat {rw function.comp_app},
-    --unfold shift,
     split_ifs,
     refl,
   },
@@ -87,8 +86,6 @@ begin
     have i_lt_mp1 : i < m+1, by linarith,
     have n_eq_i: n = i := by { rw i_eq_n, }, -- this one looks odd but is seemingly necessary
 
-    --repeat {rw function.comp_app},
-    --unfold shift,
     split_ifs,
     repeat {refl},
   },
