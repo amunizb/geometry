@@ -126,23 +126,23 @@ end
 
 def face_inclusion (n: ℕ) (k: ℕ) (h: k ≤ n): simplex (n-1) → simplex n :=
 begin
-   intro face_pnt,
-   have g := shift k face_pnt.val, -- sequence defining corresponding point in \Delta_n
-   unfold simplex,
-   have h1: ∑ (j : ℕ) in finset.range (n + 1), g j = 1,
-   {
-     sorry,
-   },
-   have h2: ∀ (i : ℕ), (i > n → g i = 0) ∧ g i ≥ 0,
-   {
-     intro i,
-     split,
-     {
-       sorry,
-     },
-     {
-       sorry,
-     },
-   },
-   exact ⟨g, ⟨h1, h2⟩⟩,
+  intro face_pnt,
+  have g := shift k face_pnt.val, -- sequence defining corresponding point in \Delta_n
+  unfold simplex,
+  have h1: ∑ (j : ℕ) in finset.range (n + 1), g j = 1,
+  {
+    sorry,
+  },
+  have h2: ∀ (i : ℕ), (i > n → g i = 0) ∧ g i ≥ 0,
+  {
+    intro i,
+    split,
+    {
+      sorry,
+    },
+    {
+      sorry,
+    },
+  },
+  exact ⟨g, ⟨h1, h2⟩⟩,
 end
