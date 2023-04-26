@@ -154,3 +154,8 @@ lemma face_inclusion_continuous (n: ℕ) (k: ℕ) (h: k ≤ n): continuous (face
 begin
   sorry,
 end
+
+lemma face_inclusion_injective (n: ℕ) (k: ℕ) (h: k ≤ n): function.injective (face_inclusion n k h) :=
+begin
+  sorry,
+end
