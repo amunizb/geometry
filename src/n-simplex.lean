@@ -87,20 +87,40 @@ begin
     split_ifs,
     refl,
   },
+  -- We now have i > n (there must be a better proof than this mess!)
+  have i_gt_n : i > n, by {
+    have i_neq_n : i ≠ n := by { exact i_eq_n, },
+    --have n_neq_i : n ≠ i := by { exact ne.symm i_neq_n, },
+    push_neg at i_lt_n,
+    have i_ge_n : i ≥ n := by { rw ge_iff_le, exact i_lt_n, },
+    exact lt_of_le_of_ne i_ge_n i_neq_n.symm,
+  },
   -- Case n < i < m
-  by_cases i_btwn_n_m : n < i ∧ i < m,
+  by_cases i_lt_m : i < m,
   {
-    sorry
+    have i_lt_mp1 : i < m+1, by linarith,
+    have i_neq_n : i ≠ n := by linarith,
+    have n_neq_n : n ≠ i := by { exact ne.symm i_neq_n, },
+    split_ifs,
+    refl,
+    have i_lt_im1 : i < i-1 := by {
+      calc i < m : i_lt_m
+      ... = i - 1 : by { rw h_1, },
+    },
+    have one_lt_zero : 1 < 0 := by {
+      calc 1 < i - i : by { rw ←h_1, exact i_lt_im1, }
+      ... = 0 : by { rw sub_self, },
+      sorry,
   },
   -- Case i = m
   by_cases i_eq_m : i = m,
   {
-    sorry
+    sorry,
   },
   -- Case m < i
   by_cases i_gt_m : i > m,
   {
-    sorry
+    sorry,
   },
   -- The above cases are exhaustive, leaving a contradiction at this point:
   sorry,
