@@ -131,6 +131,7 @@ begin
   unfold simplex,
   have h1: ∑ (j : ℕ) in finset.range (n + 1), g j = 1,
   {
+    have hf := face_pnt.property.left,
     sorry,
   },
   have h2: ∀ (i : ℕ), (i > n → g i = 0) ∧ g i ≥ 0,
@@ -138,9 +139,11 @@ begin
     intro i,
     split,
     {
+      have hf := (face_pnt.property.right i).left,
       sorry,
     },
     {
+      have hf := (face_pnt.property.right i).right,
       sorry,
     },
   },
