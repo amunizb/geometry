@@ -87,7 +87,7 @@ begin
     have n_eq_i: n = i := by { rw i_eq_n, }, -- this one looks odd but is seemingly necessary
 
     split_ifs,
-    repeat {refl},
+    refl,
   },
   -- Case n < i < m
   by_cases i_btwn_n_m : n < i ∧ i < m,
