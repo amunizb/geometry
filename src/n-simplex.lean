@@ -61,6 +61,9 @@ lemma composition_relation_for_shifts {m n : ℕ} : n < m → shift(n) ∘ shift
 begin
   intros n_lt_m,
   ext f i,
+  repeat {rw function.comp_app},
+  unfold shift,
+  --split_ifs,
 
   -- Case i < n
   by_cases i_lt_n : i < n,
@@ -70,8 +73,8 @@ begin
     have i_lt_m : i < m, by linarith,
     have i_lt_mp1 : i < m+1, by linarith,
 
-    repeat {rw function.comp_app},
-    unfold shift,
+    --repeat {rw function.comp_app},
+    --unfold shift,
     split_ifs,
     refl,
   },
@@ -84,8 +87,8 @@ begin
     have i_lt_mp1 : i < m+1, by linarith,
     have n_eq_i: n = i := by { rw i_eq_n, }, -- this one looks odd but is seemingly necessary
 
-    repeat {rw function.comp_app},
-    unfold shift,
+    --repeat {rw function.comp_app},
+    --unfold shift,
     split_ifs,
     repeat {refl},
   },
