@@ -4,6 +4,7 @@ import topology.algebra.uniform_mul_action
 import topology.algebra.ring.basic
 import topology.algebra.star
 import topology.algebra.order.field
+import topology.algebra.module.basic
 import ring_theory.subring.basic
 import group_theory.archimedean
 import algebra.order.group.bounds
@@ -19,7 +20,7 @@ open_locale classical topology filter uniformity interval
 open_locale big_operators
 open finset
 
-variable n : ℕ 
+variable n : ℕ
 
 example (ι : Type*) (X : ι → Type*) (T_X : Π i, topological_space $ X i) :
   (Pi.topological_space : topological_space (Π i, X i)) = ⨅ i, topological_space.induced (λ x, x i) (T_X i) :=
@@ -122,6 +123,59 @@ begin
   exact i_btwn_n_m ⟨lt_of_le_of_ne' i_lt_n i_eq_n, lt_of_le_of_ne' i_gt_m i_eq_m.symm⟩, 
 end
 
+instance (n : ℕ) : has_coe (fin n → ℝ) (ℕ → ℝ) :=
+{ coe := λ x k, if h : k < n then x ⟨k, h⟩ else 0 }
+
+lemma coe_add {n : ℕ} (x y : fin n → ℝ) : (↑(x + y) : ℕ → ℝ) = ↑x + ↑y :=
+begin
+  show (λ k, if h : k < n then (x + y) ⟨k, h⟩ else 0) =
+    (λ k, if h : k < n then x ⟨k, h⟩ else 0) + (λ k, if h : k < n then y ⟨k, h⟩ else 0),
+  nth_rewrite_rhs 0 [pi.add_def],
+  ext,
+  split_ifs,
+  { refl },
+  { rw add_zero },
+end
+
+lemma coe_smul {n : ℕ} (r : ℝ) (x : fin n → ℝ) : (↑(r • x) : ℕ → ℝ) = r • ↑x :=
+begin
+  show (λ k, if h : k < n then (r • x) ⟨k, h⟩ else 0) = 
+    r • (λ k, if h : k < n then x ⟨k, h⟩ else 0),
+  nth_rewrite_rhs 0 [pi.smul_def],
+  ext,
+  split_ifs,
+  { refl },
+  { rw smul_zero },
+end
+
+lemma shift_add (k : ℕ) (x y : ℕ → ℝ) : shift k (x + y) = shift k x + shift k y :=
+begin
+  unfold shift,
+  nth_rewrite_rhs 0 pi.add_def,
+  ext i,
+  split_ifs,
+  { refl },
+  { rw add_zero },
+  { refl },
+end
+
+lemma shift_smul (k : ℕ) (r : ℝ) (x : ℕ → ℝ) : shift k (r • x) = r • shift k x :=
+begin
+  unfold shift,
+  nth_rewrite_rhs 0 pi.smul_def,
+  ext i,
+  split_ifs,
+  { refl },
+  { rw smul_zero },
+  { refl },
+end
+
+def shift_lin (n k : ℕ) : (fin n → ℝ) →ₗ[ℝ] (fin n.succ → ℝ) :=
+{ to_fun := λ x i, shift k x i,
+  map_add' := λ x y, by { rw [coe_add, shift_add], refl },
+  map_smul' := λ r x, by { rw [coe_smul, shift_smul], refl } }
+
+
 -- Definition of some Topological maps associated to simplices
 --
 
@@ -180,10 +234,20 @@ begin
   exact ⟨g, ⟨h1, h2⟩⟩,
 end
 
+
+#check continuous.cod_restrict
+#check set.cod_restrict
+#check continuous_map.restrict
+#check continuous_subtype_val
+
 lemma face_inclusion_continuous (n: ℕ) (k: ℕ) (h: k ≤ n): continuous (face_inclusion n k h) :=
 begin
-  intro U,
+  haveI : has_continuous_smul ℝ (Π i : fin n.succ, ℝ) := 
+    @pi.has_continuous_smul ℝ _ (fin n.succ) (λ i, ℝ) _ _ (λ i, by apply_instance),
+  have cont: continuous (shift_lin n k) := linear_map.continuous_on_pi _,
+  -- have : continuous (shift_lin n k ∘ (subtype.val : simplex n → (fin n → ℝ))) := by simp, 
 
+  sorry,
 end
 
 lemma face_inclusion_injective (n: ℕ) (k: ℕ) (h: k ≤ n): function.injective (face_inclusion n k h) :=
