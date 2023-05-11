@@ -254,7 +254,20 @@ lemma face_inclusion_injective (n: ℕ) (k: ℕ) (h: k ≤ n): function.injectiv
 begin
   unfold function.injective,
   intros x₁ x₂,
-  intro imag_eq,
-  unfold face_inclusion at imag_eq,
-  split_ifs at imag_eq,
+  intro h2,
+  ext i,
+  by_cases h3: i ≥ k,
+  {
+    calc x₁.val i = shift k x₁.val (i+1) : by sorry
+    ...           = (face_inclusion n k h x₁).val (i+1) : by sorry
+    ...           = (face_inclusion n k h x₂).val (i+1) : by sorry
+    ...           = shift k x₂.val (i+1) : by sorry
+    ...           = x₂.val i : by sorry,
+  },
+  rw not_le at h3,
+  calc x₁.val i = shift k x₁.val (i) : by sorry
+  ...           = (face_inclusion n k h x₁).val (i) : by sorry
+  ...           = (face_inclusion n k h x₂).val (i) : by sorry
+  ...           = shift k x₂.val (i) : by sorry
+  ...           = x₂.val i : by sorry,
 end
