@@ -9,6 +9,7 @@ import group_theory.archimedean
 import algebra.order.group.bounds
 import algebra.periodic
 import topology.instances.int
+import algebra.order.group.defs
 
 import tactic
 
@@ -124,35 +125,36 @@ end
 -- Definition of some Topological maps associated to simplices
 --
 
-def face_inclusion (n: ℕ) (k: ℕ) (h: k ≤ n): simplex (n-1) → simplex n :=
+def face_inclusion (n: ℕ) (k: ℕ) (h: k ≤ n): simplex (n) → simplex (n+1) :=
 begin
   intro face_pnt,
-  have g := shift k face_pnt.val, -- sequence defining corresponding point in \Delta_n
+  set g := shift k face_pnt.val with hg, -- sequence defining corresponding point in \Delta_n
   unfold simplex,
-  have h1: ∑ (j : ℕ) in finset.range (n + 1), g j = 1,
+  have h1: ∑ (j : ℕ) in finset.range (n + 2), g j = 1,
   {
     have hf := face_pnt.property.left,
     sorry,
   },
-  have h2: ∀ (i : ℕ), (i > n → g i = 0) ∧ g i ≥ 0,
+  have h2: ∀ (i : ℕ), (i > n+1 → g i = 0) ∧ g i ≥ 0,
   {
     intro i,
     split,
     {
-      have hf := (face_pnt.property.right i).left,
       sorry,
     },
     {
       have hf := (face_pnt.property.right i).right,
+      clear h1,
       sorry,
-    },
+   },
   },
   exact ⟨g, ⟨h1, h2⟩⟩,
 end
 
 lemma face_inclusion_continuous (n: ℕ) (k: ℕ) (h: k ≤ n): continuous (face_inclusion n k h) :=
 begin
-  sorry,
+  intro U,
+
 end
 
 lemma face_inclusion_injective (n: ℕ) (k: ℕ) (h: k ≤ n): function.injective (face_inclusion n k h) :=
