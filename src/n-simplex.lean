@@ -318,11 +318,38 @@ begin
   ext i,
   by_cases h3: i ≥ k,
   {
-    calc x₁.val i = shift k x₁.val (i+1) : by sorry
+    calc x₁.val i = shift k x₁.val (i+1) : _
     ...           = (face_inclusion n k h x₁).val (i+1) : by sorry
     ...           = (face_inclusion n k h x₂).val (i+1) : by sorry
-    ...           = shift k x₂.val (i+1) : by sorry
+    ...           = shift k x₂.val (i+1) : _
     ...           = x₂.val i : _,
+    {
+      unfold shift,
+      split_ifs,
+      {
+        exfalso,
+        clear h2 h x₁ x₂ n,
+        rw ← not_le at h_1,
+        have h4 : i+1 ≥ k, by linarith,
+        exact h_1 h4,
+      },
+      {
+        exfalso,
+        clear h_1 h2 x₁ x₂ h n,
+        rw ge_iff_le at h3,
+        rw ← not_lt at h3,
+        have h4: k > i, by linarith,
+        exact h3 h4,
+      },
+      {
+        clear h_1 h2 h3 h_2 h x₂,
+        simp,
+      },
+    },
+    {
+      unfold face_inclusion,
+      refl,
+    },
     {
       have i1_gt_k: i+1 > k := by linarith,
       unfold shift,
