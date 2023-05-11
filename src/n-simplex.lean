@@ -58,6 +58,24 @@ variable m : ℕ
 def shift (n : ℕ) (f : ℕ → ℝ) : ℕ → ℝ := 
 λ i, if i < n then f i else if n = i then 0 else f (i-1)
 
+lemma shift_at_n (n : ℕ) (f : ℕ → ℝ) : shift n f n = 0 :=
+begin
+  unfold shift,
+  split_ifs,
+  linarith,
+  refl,
+end
+
+lemma shift_at_gt_n (n : ℕ) (f : ℕ → ℝ) (i : ℕ) : i > n → shift n f i = f (i-1) :=
+begin
+  intro i_gt_n,
+  unfold shift,
+  split_ifs,
+  linarith,
+  linarith,
+  refl,
+end
+
 lemma composition_relation_for_shifts {m n : ℕ} : n < m → shift(n) ∘ shift(m) = shift(m+1) ∘ shift(n) :=
 begin
   intros n_lt_m,
