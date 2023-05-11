@@ -140,7 +140,26 @@ begin
     intro i,
     split,
     {
-      sorry,
+      rw hg,
+      unfold shift,
+      split_ifs,
+      {
+        intro i_gt_n1,
+        have hf := (face_pnt.property.right (i)).left,
+        apply hf,
+        linarith,
+      },
+      {
+        intro irrelevant,
+        refl,
+      },
+      {
+        intro i_gt_n1,     
+        have hf := (face_pnt.property.right (i-1)).left,
+        apply hf,
+        clear h_2 h_1 hg hf h1 g face_pnt h k,
+        sorry, -- should be a theorem about this
+      },
     },
     {
       have hf := (face_pnt.property.right i).right,
