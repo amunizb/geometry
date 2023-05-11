@@ -162,9 +162,19 @@ begin
       },
     },
     {
-      have hf := (face_pnt.property.right i).right,
       clear h1,
-      sorry,
+      rw hg,
+      unfold shift,
+      split_ifs,
+      {
+        exact (face_pnt.property.right i).right,
+      },
+      {
+        simp,
+      },
+      {
+        exact (face_pnt.property.right (i-1)).right,
+      },
    },
   },
   exact ⟨g, ⟨h1, h2⟩⟩,
