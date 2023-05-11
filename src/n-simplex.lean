@@ -104,13 +104,10 @@ begin
     split_ifs,
     refl,
     have i_lt_im1 : i < i-1 := by {
-      calc i < m : i_lt_m
-      ... = i - 1 : by { rw h_1, },
+       calc i < m : i_lt_m
+       ... = i - 1 : by { rw h_1, },
     },
-    have one_lt_zero : 1 < 0 := by {
-      calc 1 < i - i : by { rw ←h_1, exact i_lt_im1, }
-      ... = 0 : by { rw sub_self, },
-      sorry,
+    sorry,
   },
   -- Case i = m
   by_cases i_eq_m : i = m,
