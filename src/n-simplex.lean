@@ -79,6 +79,14 @@ begin
   refl,
 end
 
+lemma shift_at_lt_n (n : ℕ) (f : ℕ → ℝ) (i : ℕ) : i < n → shift n f i = f i :=
+begin
+  intro i_lt_n,
+  unfold shift,
+  split_ifs,
+  refl,
+end
+
 lemma composition_relation_for_shifts {m n : ℕ} : n < m → shift(n) ∘ shift(m) = shift(m+1) ∘ shift(n) :=
 begin
   intros n_lt_m,
