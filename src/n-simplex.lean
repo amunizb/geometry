@@ -319,10 +319,35 @@ begin
   by_cases h3: i ≥ k,
   {
     calc x₁.val i = shift k x₁.val (i+1) : _
-    ...           = (face_inclusion n k h x₁).val (i+1) : by sorry
+    ...           = (face_inclusion n k h x₁).val (i+1) : _
     ...           = (face_inclusion n k h x₂).val (i+1) : by sorry
     ...           = shift k x₂.val (i+1) : _
     ...           = x₂.val i : _,
+    {
+      unfold shift,
+      split_ifs,
+      {
+        exfalso,
+        clear h2 h x₁ x₂ n,
+        rw ← not_le at h_1,
+        have h4 : i+1 ≥ k, by linarith,
+        exact h_1 h4,
+      },
+      {
+        exfalso,
+        -- contradiction between h3 and h_2
+        clear h2 h x₁ x₂ n h_1,
+        rw ge_iff_le at h3,
+        rw ← not_lt at h3,
+        have i_lt_k: i < k, by linarith,
+        exact h3 i_lt_k,
+      },
+      {
+        -- only need i and x₁
+        clear h_2 h_1 h3 h2 h x₂,
+        simp,
+      },
+    },
     {
       unfold shift,
       split_ifs,
@@ -342,7 +367,11 @@ begin
         exact h3 h4,
       },
       {
-        clear h_1 h2 h3 h_2 h x₂,
+        have h4: i + 1 > k, by linarith,
+        clear h_1 h_2,
+        unfold face_inclusion,
+        have goal := shift_at_gt_n (k) x₁.val (i+1) h4,
+        rw ← goal,
         simp,
       },
     },
