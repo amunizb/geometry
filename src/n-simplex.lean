@@ -262,7 +262,26 @@ begin
     ...           = (face_inclusion n k h x₁).val (i+1) : by sorry
     ...           = (face_inclusion n k h x₂).val (i+1) : by sorry
     ...           = shift k x₂.val (i+1) : by sorry
-    ...           = x₂.val i : by sorry,
+    ...           = x₂.val i : _,
+    {
+      have i1_gt_k: i+1 > k := by linarith,
+      unfold shift,
+      split_ifs,
+      {
+        exfalso,
+        clear h3 h2 h x₁ x₂ n,
+        exact not_lt.2 (le_of_lt h_1) i1_gt_k,
+      },
+      {
+        exfalso,
+        clear h2 h_1 h3 x₁ x₂ h n,
+        exact ne_of_lt i1_gt_k h_2,
+      },
+      {
+        clear h_2 h_1 h3 h2 x₁ h i1_gt_k,
+        simp,
+      },
+    },
   },
   rw not_le at h3,
   calc x₁.val i = shift k x₁.val (i) : by sorry
