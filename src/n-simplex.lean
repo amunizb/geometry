@@ -7,9 +7,11 @@ import topology.algebra.order.field
 import ring_theory.subring.basic
 import group_theory.archimedean
 import algebra.order.group.bounds
+import algebra.big_operators.basic
 import algebra.periodic
 import topology.instances.int
 import algebra.order.group.defs
+import data.finset.basic
 
 import tactic
 
@@ -151,6 +153,38 @@ begin
   have h1: ∑ (j : ℕ) in finset.range (n + 2), g j = 1,
   {
     have hf := face_pnt.property.left,
+    --rw hg,
+    set s_k := finset.range (k+1) with hs_k,
+    set s_kc := finset.range (n+2) \ s_k with hs_kc,
+    -- unfold shift,
+    have h2: disjoint s_k s_kc,
+    {
+      rw finset.disjoint_iff_inter_eq_empty,
+      rw hs_kc,
+      simp,
+    },
+    have h3: finset.range (n+2) = s_k.disj_union s_kc h2,
+    {
+      rw finset.disj_union_eq_union,
+      rw hs_kc,
+      simp,
+      linarith,
+    },
+    rw h3,
+    rw finset.sum_disj_union (h2 ),
+    rw finset.sum_range_succ,
+    have h4: g k = 0,
+    {
+      exact shift_at_n k face_pnt.val,
+    },
+    rw h4,
+    rw add_zero,
+    set s_km1 := finset.range k with hs_km1,
+    set s_kmc := finset.range (n+2) \ s_km1 with hs_kmc,
+    have h5: finset.sum s_kc (λ (x : ℕ), g x) = finset.sum s_kmc (λ (x : ℕ), face_pnt.val x),
+    {
+      sorry,
+    },
     sorry,
   },
   have h2: ∀ (i : ℕ), (i > n+1 → g i = 0) ∧ g i ≥ 0,
