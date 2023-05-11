@@ -252,5 +252,9 @@ end
 
 lemma face_inclusion_injective (n: ℕ) (k: ℕ) (h: k ≤ n): function.injective (face_inclusion n k h) :=
 begin
-  sorry,
+  unfold function.injective,
+  intros x₁ x₂,
+  intro imag_eq,
+  unfold face_inclusion at imag_eq,
+  split_ifs at imag_eq,
 end
