@@ -49,6 +49,17 @@ begin
   exact (x.property.right i).left hi,
 end⟩⟩
 
+def to_fin : simplex n → (fin n.succ → ℝ) :=
+λ x i, x.val i
+
+lemma to_fin_continuous : continuous (to_fin n) :=
+begin
+  rw pi_eq_generate_from,
+  apply continuous_generated_from,
+  rintros U ⟨s, i, h1, h2⟩,
+  sorry,
+end
+
 -- Shift functions on sequences and associated theorems
 --
 
@@ -272,7 +283,7 @@ begin
         have hf := (face_pnt.property.right (i-1)).left,
         apply hf,
         clear h_2 h_1 hg hf h1 g face_pnt h k,
-        sorry, -- should be a theorem about this
+        sorry,
       },
     },
     {
